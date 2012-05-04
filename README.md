@@ -33,6 +33,10 @@ Please run `go fmt` before submitting your patch.
 
 Check the issues tab in github for any ideas if you'd like to contribute.
 
+# Credits
+
+Omid Aladini - for the initial implementation
+
 # License
 
 Copyright (c) 2012, Sean Treadway, Omid Aladini
