@@ -31,7 +31,8 @@ Make your changes on your fork in a non-master branch and submit a pull request 
 
 # License
 
-Copyright (c) 2012, Sean Treadway
+Copyright (c) 2012, Sean Treadway, Omid Aladini
+
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without

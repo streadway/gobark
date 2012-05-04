@@ -195,7 +195,7 @@ func main() {
 	}
 }
 
-// Copyright (c) 2012, Sean Treadway
+// Copyright (c) 2012, Sean Treadway, Omid Aladini
 // All rights reserved.
 // 
 // Redistribution and use in source and binary forms, with or without
