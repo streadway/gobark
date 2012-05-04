@@ -10,18 +10,18 @@ GC is a concern and the observed latency is about 1ms for a cycle, with a GC cyc
 
 # Usage
 
-  Usage of ./gobark:
-    -delim="\n": the byte sequence that separates events
-    -ignore-delim=false: exclude the delimiter in each event
-    -line-buffers=1000: max number of events to buffer
-    -line-size=4096: expect most events to be shorter than this size
-    -name="bark": identity/program name that is prefixed to each event
-    -tee=false: immediately write and block on all reads to stdout
-    -xpid=false: checks each event for the [x-pid=""] header
+    Usage of ./gobark:
+      -delim="\n": the byte sequence that separates events
+      -ignore-delim=false: exclude the delimiter in each event
+      -line-buffers=1000: max number of events to buffer
+      -line-size=4096: expect most events to be shorter than this size
+      -name="bark": identity/program name that is prefixed to each event
+      -tee=false: immediately write and block on all reads to stdout
+      -xpid=false: checks each event for the [x-pid=""] header
 
 Example
 
-  ./myserver | ./gobark -name myserver -tee > /var/log/myserver
+    ./myserver | ./gobark -name myserver -tee > /var/log/myserver
 
 If your program emits lines with the syslog extension `[ x-pid="program" ...`, bark will find it and use `program` as the program name instead of the one passed on the command line.
 
