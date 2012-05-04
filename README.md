@@ -29,6 +29,10 @@ If your program emits lines with the syslog extension `[ x-pid="program" ...`, b
 
 Make your changes on your fork in a non-master branch and submit a pull request with the use case/bug you've contributed to helping with.
 
+Please run `go fmt` before submitting your patch.
+
+Check the issues tab in github for any ideas if you'd like to contribute.
+
 # License
 
 Copyright (c) 2012, Sean Treadway, Omid Aladini

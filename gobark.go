@@ -3,10 +3,10 @@ package main
 
 import (
 	"bytes"
-	"os"
 	"flag"
-	"regexp"
 	"log/syslog"
+	"os"
+	"regexp"
 )
 
 // Accumulators for the different log variants we could see
@@ -14,21 +14,21 @@ type loggers map[string]*syslog.Writer
 type priorities map[syslog.Priority]loggers
 
 var (
-	pool chan *bytes.Buffer
+	pool  chan *bytes.Buffer
 	lines chan *bytes.Buffer
 
 	logs = make(priorities)
-	pid = regexp.MustCompile(`\[[^]]*x-pid="([^"]+)"`)
+	pid  = regexp.MustCompile(`\[[^]]*x-pid="([^"]+)"`)
 )
 
 var (
-	name = flag.String("name", "bark", "identity/program name that is prefixed to each event")
-	xpid = flag.Bool("xpid", false, "checks each event for the [x-pid=\"\"] header")
-	tee = flag.Bool("tee", false, "immediately write and block on all reads to stdout")
-	delim = flag.String("delim", "\n", "the byte sequence that separates events")
+	name        = flag.String("name", "bark", "identity/program name that is prefixed to each event")
+	xpid        = flag.Bool("xpid", false, "checks each event for the [x-pid=\"\"] header")
+	tee         = flag.Bool("tee", false, "immediately write and block on all reads to stdout")
+	delim       = flag.String("delim", "\n", "the byte sequence that separates events")
 	ignoreDelim = flag.Bool("ignore-delim", false, "exclude the delimiter in each event")
 	lineBuffers = flag.Int("line-buffers", 1000, "max number of events to buffer")
-	lineSize = flag.Int("line-size", 4096, "expect most events to be shorter than this size")
+	lineSize    = flag.Int("line-size", 4096, "expect most events to be shorter than this size")
 )
 
 func init() {
@@ -109,20 +109,20 @@ func priority(line []byte) (prio syslog.Priority, clean []byte) {
 		switch start {
 		case "EMERG", "EMERGENCY":
 			prio = syslog.LOG_EMERG
-  	case "ALERT":
+		case "ALERT":
 			prio = syslog.LOG_ALERT
-  	case "CRIT", "CRITICAL":
+		case "CRIT", "CRITICAL":
 			prio = syslog.LOG_CRIT
-  	case "ERROR", "ERR":
+		case "ERROR", "ERR":
 			prio = syslog.LOG_ERR
-  	case "WARN", "WARNING":
+		case "WARN", "WARNING":
 			prio = syslog.LOG_WARNING
-  	case "NOTICE":
-    	prio = syslog.LOG_NOTICE
+		case "NOTICE":
+			prio = syslog.LOG_NOTICE
 		case "INFO":
-    	prio = syslog.LOG_INFO
+			prio = syslog.LOG_INFO
 		case "DEBUG":
-    	prio = syslog.LOG_DEBUG
+			prio = syslog.LOG_DEBUG
 		}
 	}
 
@@ -162,7 +162,7 @@ func bark(line []byte) error {
 	if err != nil {
 		return err
 	}
-	
+
 	log.Write(line)
 
 	return err
