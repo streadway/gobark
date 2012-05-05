@@ -25,6 +25,18 @@ Example
 
 If your program emits lines with the syslog extension `[ x-pid="program" ...`, bark will find it and use `program` as the program name instead of the one passed on the command line.
 
+# Testing
+
+Build the timings package with `make` then collect and bucket the latencies:
+
+    cd timing
+    make
+    cd ..
+    out=samples.out
+    timing/timing 2>$out | gobark
+    cat $out | awk '{print int(log($0)/log(10))}' |\
+      sort -n | uniq -c | awk '{print $2, $1}' | sort -nr
+
 # Contributing
 
 Make your changes on your fork in a non-master branch and submit a pull request with the use case/bug you've contributed to helping with.

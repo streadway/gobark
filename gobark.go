@@ -17,7 +17,6 @@ var (
 	pool  chan *bytes.Buffer
 	lines chan *bytes.Buffer
 
-	logs = make(priorities)
 	pid  = regexp.MustCompile(`\[[^]]*x-pid="([^"]+)"`)
 )
 
@@ -99,14 +98,12 @@ func prefix(line []byte) string {
 }
 
 func priority(line []byte) (prio syslog.Priority, clean []byte) {
-	var start string
-
 	prio, clean = syslog.LOG_INFO, line
 
 	if i := bytes.IndexByte(line, ' '); i >= 0 {
-		start, clean = string(line[:i]), line[i+1:]
+		clean = line[i+1:]
 
-		switch start {
+		switch string(line[:i]) {
 		case "EMERG", "EMERGENCY":
 			prio = syslog.LOG_EMERG
 		case "ALERT":
@@ -123,30 +120,9 @@ func priority(line []byte) (prio syslog.Priority, clean []byte) {
 			prio = syslog.LOG_INFO
 		case "DEBUG":
 			prio = syslog.LOG_DEBUG
+		default:
+			clean = line
 		}
-	}
-
-	return
-}
-
-// creates and registers a new logger at the prefix from our
-// name or x-pid
-func logger(line []byte) (log *syslog.Writer, clean []byte, err error) {
-	prio, clean := priority(line)
-	name := prefix(clean)
-
-	cache, ok := logs[prio]
-	if !ok {
-		cache = make(loggers)
-		logs[prio] = cache
-	}
-
-	log, ok = cache[name]
-	if !ok {
-		if log, err = syslog.New(prio, name); err != nil {
-			return
-		}
-		cache[name] = log
 	}
 
 	return
@@ -158,14 +134,12 @@ func bark(line []byte) error {
 		line = line[:len(line)-len(*delim)]
 	}
 
-	log, line, err := logger(line)
-	if err != nil {
-		return err
-	}
+	prio, line := priority(line)
+	ident := prefix(line)
 
-	log.Write(line)
+	Syslog(ident, prio, string(line))
 
-	return err
+	return nil
 }
 
 func main() {
