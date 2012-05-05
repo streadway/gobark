@@ -25,6 +25,16 @@ Example
 
 If your program emits lines with the syslog extension `[ x-pid="program" ...`, bark will find it and use `program` as the program name instead of the one passed on the command line.
 
+# Packaging
+
+Run ./deb.bash to build a debian package.  This will use the latest discoverable tag as the version.
+
+To tag a new version, use semver:
+
+    git tag -a v0.1.1 -m v0.1.1
+    git push --tags
+    ./deb.bash
+
 # Testing
 
 Build the timings package with `make` then collect and bucket the latencies:
