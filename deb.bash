@@ -16,4 +16,4 @@ fpm -m "Sean Treadway <sean@soundcloud.com>" \
   -n gobark \
   usr/bin/
 
-rm -rf usr/bin
+rm -rf usr
