@@ -6,14 +6,8 @@ mkdir -p usr/bin
 cp gobark usr/bin
 
 ver=$(git describe | sed s/^v// | tr - + | tr -d '\n')
+author=$(git log -1 $ver | grep 'Author: ' | sed 's/^Author: //')
 
-git diff --quiet HEAD || ver="$ver+mod"
-
-fpm -m "Sean Treadway <sean@soundcloud.com>" \
-  -s dir \
-  -t deb \
-  -v $ver \
-  -n gobark \
-  usr/bin/
+fpm -m "$author" -v $ver -s dir -t deb -n gobark usr/bin/
 
 rm -rf usr
